@@ -70,7 +70,7 @@ try {
       label: 'POST /api/sessions (Paolo)',
       run: () =>
         request('POST', '/api/sessions', {
-          body: { username: 'Paolo', password: 'password' },
+          body: { username: 'Paolo', password: 'Paolo123' },
         }),
       expect: (r) => r.status === 201 && r.cookie,
       after: (r) => {
@@ -144,7 +144,7 @@ try {
       run: () => request('GET', '/api/ranking', { cookie }),
       expect: (r) => {
         if (r.status !== 200 || !Array.isArray(r.json) || r.json.length < 1) return false;
-        if (r.json[0].username !== 'Omar' || r.json[0].bestScore !== 22) {
+        if (r.json[0].username !== 'Francesca' || r.json[0].bestScore !== 22) {
           return false;
         }
         for (let i = 1; i < r.json.length; i++) {

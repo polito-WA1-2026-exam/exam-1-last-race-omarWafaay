@@ -67,7 +67,7 @@ Errors: `404` · `409` (wrong state or planning expired)
 Success `200`: game object · `404` if not found or not owner
 
 **`GET /api/ranking`** — leaderboard  
-Success `200`: `[{ "username": "Omar", "bestScore": 22 }, ...]` sorted by score descending; only users with completed games
+Success `200`: `[{ "username": "Francesca", "bestScore": 22 }, ...]` sorted by score descending; only users with completed games
 
 ---
 
@@ -127,13 +127,13 @@ Do this once before submission (browser at `http://localhost:5173`, both servers
    - `cd server && npm install && nodemon index.js`
    - `cd client && npm install && npm run dev`
 2. **Game screenshot** (`img/game-planning.png`)
-   - Login as `Omar` / `password`
+   - Login as `Omar` / `Omar123`
    - Go to **Play** → click **Start game** on setup
    - Capture **planning** phase: timer visible, start/destination shown, segment list on screen
    - Windows: `Win + Shift + S` → save as PNG in `img/`
 3. **Ranking screenshot** (`img/ranking.png`)
    - Open **Ranking**
-   - Capture table: Omar 1st (gold), Paolo 2nd, Francesca 3rd (bronze), Marco 4th; coin icons visible
+   - Capture table: Francesca 1st (gold), Omar 2nd, Paolo 3rd (bronze), Marco 4th; coin icons visible
 4. **Update this README** — uncomment/fix image paths above if filenames differ
 5. **Quick check** — log out: `/game` and `/ranking` must redirect to login
 
@@ -143,12 +143,12 @@ Do this once before submission (browser at `http://localhost:5173`, both servers
 
 | Username | Password | Notes |
 |----------|----------|--------|
-| `Omar` | `password` | Best score **22** (seed) |
-| `Paolo` | `password` | Best score **21** (seed) |
-| `Francesca` | `password` | Best score **18** (seed) |
-| `Marco` | `password` | Best score **15** (seed) |
-| `Alice` | `password` | No completed games |
-| `Giulia` | `password` | No completed games |
+| `Omar` | `Omar123` | Best score **21** (seed) |
+| `Paolo` | `Paolo123` | Best score **18** (seed) |
+| `Francesca` | `Francesca123` | Best score **22** (seed) |
+| `Marco` | `Marco123` | Best score **15** (seed) |
+| `Alice` | `Alice123` | No completed games |
+| `Giulia` | `Giulia123` | No completed games |
 
 ---
 

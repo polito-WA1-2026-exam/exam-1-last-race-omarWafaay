@@ -110,7 +110,7 @@ try {
   }
 
   const login = await request('POST', '/api/sessions', {
-    body: { username: 'Omar', password: 'password' },
+    body: { username: 'Omar', password: 'Omar123' },
   });
   if (login.status !== 201) {
     fail(`POST /api/sessions → ${login.status} ${JSON.stringify(login.json)}`);

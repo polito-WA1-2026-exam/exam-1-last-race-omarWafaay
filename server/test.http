@@ -15,7 +15,7 @@ Content-Type: application/json
 
 {
   "username": "Paolo",
-  "password": "password"
+  "password": "Paolo123"
 }
 
 ### Current user (use cookie from login)

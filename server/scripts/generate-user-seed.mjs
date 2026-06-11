@@ -8,7 +8,7 @@ const USERS = ['Omar', 'Paolo', 'Francesca', 'Alice', 'Marco', 'Giulia'];
 
 for (const username of USERS) {
   const salt = crypto.randomBytes(16).toString('hex');
-  const hash = await scrypt('password', salt, 16);
+  const hash = await scrypt(`${username}123`, salt, 16);
   console.log(
     `  ('${username}', '${hash.toString('hex')}', '${salt}'),`
   );

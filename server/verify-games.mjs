@@ -114,7 +114,7 @@ async function login(username) {
 
   const res = await request('POST', '/api/sessions', {
 
-    body: { username, password: 'password' },
+    body: { username, password: `${username}123` },
 
   });
 

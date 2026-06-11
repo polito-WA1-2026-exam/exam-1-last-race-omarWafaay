@@ -87,12 +87,12 @@ At least 8 events; effects in [-4, +4].
 
 | username | password | Notes |
 |----------|----------|--------|
-| `Omar` | `password` | Two **completed** games (best score **22**) |
-| `Paolo` | `password` | One **completed** game (score **21**) |
-| `Francesca` | `password` | One **completed** game (score **18**) |
-| `Marco` | `password` | One **completed** game (score **15**) |
-| `Alice` | `password` | No completed games (omitted from ranking) |
-| `Giulia` | `password` | No completed games (omitted from ranking) |
+| `Omar` | `Omar123` | Two **completed** games (best score **21**) |
+| `Paolo` | `Paolo123` | One **completed** game (score **18**) |
+| `Francesca` | `Francesca123` | One **completed** game (best score **22**) |
+| `Marco` | `Marco123` | One **completed** game (score **15**) |
+| `Alice` | `Alice123` | No completed games (omitted from ranking) |
+| `Giulia` | `Giulia123` | No completed games (omitted from ranking) |
 
 `route_json` format: JSON array of `[fromStationId, toStationId]` integer pairs in travel order, e.g. `[[1,6],[6,7]]`. Names are resolved via `stations` when needed for display.
 

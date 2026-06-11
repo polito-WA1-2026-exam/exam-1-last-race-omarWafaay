@@ -35,7 +35,7 @@ export default function LoginPage() {
 
   function fillDemo(name) {
     setUsername(name);
-    setPassword('password');
+    setPassword(`${name}123`);
     setError('');
   }
 
@@ -81,7 +81,7 @@ export default function LoginPage() {
 
         <div className="panel demo-box">
           <p className="demo-box-title">Demo accounts</p>
-          <p className="demo-box-hint">Password for all: <code>password</code></p>
+          <p className="demo-box-hint">Password: <code>username123</code> (e.g. Omar123)</p>
           <div className="demo-box-users">
             {DEMO_USERS.map((name) => (
               <button

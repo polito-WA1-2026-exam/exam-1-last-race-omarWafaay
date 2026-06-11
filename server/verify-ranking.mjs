@@ -44,9 +44,13 @@ async function waitForServer(child) {
   throw new Error('Server timeout');
 }
 
+function seedPassword(username) {
+  return `${username}123`;
+}
+
 async function login(username) {
   const res = await request('POST', '/api/sessions', {
-    body: { username, password: 'password' },
+    body: { username, password: seedPassword(username) },
   });
   if (!res.cookie) throw new Error(`login failed for ${username}`);
   return res.cookie;
@@ -69,24 +73,24 @@ try {
     fail(`anonymous ranking → ${anon.status} / ${anon.json?.error}`);
   } else ok('GET /api/ranking without login → 401 UNAUTHORIZED');
 
-  const cookie = await login('Omar');
+  const cookie = await login('Francesca');
   const ranking = await request('GET', '/api/ranking', { cookie });
 
   if (ranking.status !== 200) fail(`ranking → ${ranking.status}`);
   else if (!Array.isArray(ranking.json)) fail('ranking must be a JSON array');
   else if (ranking.json.length !== 4) {
     fail(`expected 4 ranked users from seed, got ${ranking.json.length}`);
-  } else if (ranking.json[0].username !== 'Omar' || ranking.json[0].bestScore !== 22) {
-    fail(`first place should be Omar/22, got ${JSON.stringify(ranking.json[0])}`);
-  } else if (ranking.json[1].username !== 'Paolo' || ranking.json[1].bestScore !== 21) {
-    fail(`second place should be Paolo/21, got ${JSON.stringify(ranking.json[1])}`);
-  } else if (ranking.json[2].username !== 'Francesca' || ranking.json[2].bestScore !== 18) {
-    fail(`third place should be Francesca/18, got ${JSON.stringify(ranking.json[2])}`);
+  } else if (ranking.json[0].username !== 'Francesca' || ranking.json[0].bestScore !== 22) {
+    fail(`first place should be Francesca/22, got ${JSON.stringify(ranking.json[0])}`);
+  } else if (ranking.json[1].username !== 'Omar' || ranking.json[1].bestScore !== 21) {
+    fail(`second place should be Omar/21, got ${JSON.stringify(ranking.json[1])}`);
+  } else if (ranking.json[2].username !== 'Paolo' || ranking.json[2].bestScore !== 18) {
+    fail(`third place should be Paolo/18, got ${JSON.stringify(ranking.json[2])}`);
   } else if (ranking.json[3].username !== 'Marco' || ranking.json[3].bestScore !== 15) {
     fail(`fourth place should be Marco/15, got ${JSON.stringify(ranking.json[3])}`);
   } else if (ranking.json.some((r) => ['Alice', 'Giulia'].includes(r.username))) {
     fail('users without completed games should be omitted from ranking');
-  } else ok('GET /api/ranking → Omar (22), Paolo (21), Francesca (18), Marco (15)');
+  } else ok('GET /api/ranking → Francesca (22), Omar (21), Paolo (18), Marco (15)');
 } catch (e) {
   fail(e.message);
 } finally {

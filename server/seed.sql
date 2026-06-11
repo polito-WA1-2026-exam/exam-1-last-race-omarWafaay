@@ -82,16 +82,16 @@ INSERT INTO events (description, effect) VALUES
   ('Signal failure', -4),
   ('Lucky find', 4);
 
--- password = scrypt(plain, salt, 16) as hex (see scripts/generate-user-seed.mjs)
+-- password = scrypt(username + "123", salt, 16) as hex (see scripts/generate-user-seed.mjs)
 INSERT INTO users (username, password, salt) VALUES
-  ('Omar', '0082c7cb58611b309c54e8eed9de140e', '9d4b8f925ca5e3a54440287b2dc0c9bc'),
-  ('Paolo', '960f7cfb98d4cee7b3fabdd4bff015fa', '81ecb808cee07c1bfb6e7d93a9071cf3'),
-  ('Francesca', '622f4edfdc6d56ed71943213f9e657a5', 'ce9dcd1fbcfa1155c77b312b5089cdc2'),
-  ('Alice', 'efcbf153ded1251664c6fba92c5f3ef5', '824901039c976fdb27a471fe442c07ff'),
-  ('Marco', 'acdaa8373d0fed1952d4a20fb1dc35ff', '98439ed8fa7447a981c708c83fe218eb'),
-  ('Giulia', 'f1298e0e205d1cedcec1ac418254193f', 'f27f193868394ec4530e6bc35a615aa5');
+  ('Omar', '96b4403581c2e97a9610ef95087c9756', '6cb7f3c62ea99137dbb605b7f88e4224'),
+  ('Paolo', '3c0f906d3687907ee753f39116ea2095', '152da50cb69169d69fc078c58b9bc8a8'),
+  ('Francesca', 'a0b75cfc395fc093ac97f0dad6c22044', '246643f82f43b0a871b3ffaf84429dfe'),
+  ('Alice', '7bc3f3f97562f4355b035fcee94cda45', '8b2773946f0dcdbb18831c56770a989a'),
+  ('Marco', 'be1ab553b4980373da6113e49c009fcc', '68883aed0f9cedeadddfec8d86c85a61'),
+  ('Giulia', 'c523793857ba4490f3da82e73bac3cf8', 'ffa02750d6a194fbc0e8c76d4b2381b4');
 
--- Omar: completed games (best score 22)
+-- Francesca: completed game (best score 22)
 INSERT INTO games (user_id, start_station_id, dest_station_id, route_json, status, final_score)
 SELECT
   u.id,
@@ -100,6 +100,17 @@ SELECT
   '[[5,11],[11,12],[12,9],[9,8],[8,7]]',
   'completed',
   22
+FROM users u WHERE u.username = 'Francesca';
+
+-- Omar: completed games (best score 21)
+INSERT INTO games (user_id, start_station_id, dest_station_id, route_json, status, final_score)
+SELECT
+  u.id,
+  (SELECT id FROM stations WHERE name = 'Green Park'),
+  (SELECT id FROM stations WHERE name = 'Notting Hill'),
+  '[[1,6],[6,7],[7,8],[8,9]]',
+  'completed',
+  21
 FROM users u WHERE u.username = 'Omar';
 
 INSERT INTO games (user_id, start_station_id, dest_station_id, route_json, status, final_score)
@@ -112,18 +123,7 @@ SELECT
   12
 FROM users u WHERE u.username = 'Omar';
 
--- Paolo: completed game (score 21)
-INSERT INTO games (user_id, start_station_id, dest_station_id, route_json, status, final_score)
-SELECT
-  u.id,
-  (SELECT id FROM stations WHERE name = 'Green Park'),
-  (SELECT id FROM stations WHERE name = 'Notting Hill'),
-  '[[1,6],[6,7],[7,8],[8,9]]',
-  'completed',
-  21
-FROM users u WHERE u.username = 'Paolo';
-
--- Francesca: completed game (score 18) — bronze on ranking
+-- Paolo: completed game (score 18)
 INSERT INTO games (user_id, start_station_id, dest_station_id, route_json, status, final_score)
 SELECT
   u.id,
@@ -132,7 +132,7 @@ SELECT
   '[[1,2],[2,3],[3,4]]',
   'completed',
   18
-FROM users u WHERE u.username = 'Francesca';
+FROM users u WHERE u.username = 'Paolo';
 
 -- Marco: completed game (score 15)
 INSERT INTO games (user_id, start_station_id, dest_station_id, route_json, status, final_score)
@@ -147,7 +147,7 @@ FROM users u WHERE u.username = 'Marco';
 
 -- Alice and Giulia: no completed games (omitted from ranking)
 
--- Execution steps for Omar best game (final_score 22)
+-- Execution steps for Francesca best game (final_score 22)
 INSERT INTO game_steps (game_id, step_order, from_station_id, to_station_id, event_id, coins_after)
 SELECT
   g.id, 1,
@@ -157,7 +157,7 @@ SELECT
   20
 FROM games g
 JOIN users u ON u.id = g.user_id
-WHERE u.username = 'Omar' AND g.final_score = 22;
+WHERE u.username = 'Francesca' AND g.final_score = 22;
 
 INSERT INTO game_steps (game_id, step_order, from_station_id, to_station_id, event_id, coins_after)
 SELECT
@@ -168,7 +168,7 @@ SELECT
   21
 FROM games g
 JOIN users u ON u.id = g.user_id
-WHERE u.username = 'Omar' AND g.final_score = 22;
+WHERE u.username = 'Francesca' AND g.final_score = 22;
 
 INSERT INTO game_steps (game_id, step_order, from_station_id, to_station_id, event_id, coins_after)
 SELECT
@@ -179,7 +179,7 @@ SELECT
   19
 FROM games g
 JOIN users u ON u.id = g.user_id
-WHERE u.username = 'Omar' AND g.final_score = 22;
+WHERE u.username = 'Francesca' AND g.final_score = 22;
 
 INSERT INTO game_steps (game_id, step_order, from_station_id, to_station_id, event_id, coins_after)
 SELECT
@@ -190,7 +190,7 @@ SELECT
   21
 FROM games g
 JOIN users u ON u.id = g.user_id
-WHERE u.username = 'Omar' AND g.final_score = 22;
+WHERE u.username = 'Francesca' AND g.final_score = 22;
 
 INSERT INTO game_steps (game_id, step_order, from_station_id, to_station_id, event_id, coins_after)
 SELECT
@@ -201,9 +201,9 @@ SELECT
   22
 FROM games g
 JOIN users u ON u.id = g.user_id
-WHERE u.username = 'Omar' AND g.final_score = 22;
+WHERE u.username = 'Francesca' AND g.final_score = 22;
 
--- Execution steps for Paolo (final_score 21)
+-- Execution steps for Omar (final_score 21)
 INSERT INTO game_steps (game_id, step_order, from_station_id, to_station_id, event_id, coins_after)
 SELECT
   g.id, 1,
@@ -213,7 +213,7 @@ SELECT
   20
 FROM games g
 JOIN users u ON u.id = g.user_id
-WHERE u.username = 'Paolo';
+WHERE u.username = 'Omar' AND g.final_score = 21;
 
 INSERT INTO game_steps (game_id, step_order, from_station_id, to_station_id, event_id, coins_after)
 SELECT
@@ -224,7 +224,7 @@ SELECT
   21
 FROM games g
 JOIN users u ON u.id = g.user_id
-WHERE u.username = 'Paolo';
+WHERE u.username = 'Omar' AND g.final_score = 21;
 
 INSERT INTO game_steps (game_id, step_order, from_station_id, to_station_id, event_id, coins_after)
 SELECT
@@ -235,7 +235,7 @@ SELECT
   19
 FROM games g
 JOIN users u ON u.id = g.user_id
-WHERE u.username = 'Paolo';
+WHERE u.username = 'Omar' AND g.final_score = 21;
 
 INSERT INTO game_steps (game_id, step_order, from_station_id, to_station_id, event_id, coins_after)
 SELECT
@@ -246,9 +246,9 @@ SELECT
   21
 FROM games g
 JOIN users u ON u.id = g.user_id
-WHERE u.username = 'Paolo';
+WHERE u.username = 'Omar' AND g.final_score = 21;
 
--- Execution steps for Francesca (final_score 18)
+-- Execution steps for Paolo (final_score 18)
 INSERT INTO game_steps (game_id, step_order, from_station_id, to_station_id, event_id, coins_after)
 SELECT
   g.id, 1,
@@ -258,7 +258,7 @@ SELECT
   20
 FROM games g
 JOIN users u ON u.id = g.user_id
-WHERE u.username = 'Francesca';
+WHERE u.username = 'Paolo';
 
 INSERT INTO game_steps (game_id, step_order, from_station_id, to_station_id, event_id, coins_after)
 SELECT
@@ -269,7 +269,7 @@ SELECT
   21
 FROM games g
 JOIN users u ON u.id = g.user_id
-WHERE u.username = 'Francesca';
+WHERE u.username = 'Paolo';
 
 INSERT INTO game_steps (game_id, step_order, from_station_id, to_station_id, event_id, coins_after)
 SELECT
@@ -280,7 +280,7 @@ SELECT
   18
 FROM games g
 JOIN users u ON u.id = g.user_id
-WHERE u.username = 'Francesca';
+WHERE u.username = 'Paolo';
 
 -- Execution steps for Marco (final_score 15)
 INSERT INTO game_steps (game_id, step_order, from_station_id, to_station_id, event_id, coins_after)
