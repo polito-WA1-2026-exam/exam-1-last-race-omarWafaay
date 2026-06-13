@@ -100,8 +100,8 @@ export default function RankingPage() {
               <table className="ranking-table">
                 <thead>
                   <tr>
-                    <th scope="col">Place</th>
-                    <th scope="col">Player</th>
+                    <th scope="col" className="col-place">Place</th>
+                    <th scope="col" className="col-player">Player</th>
                     <th scope="col" className="col-num">Coins</th>
                   </tr>
                 </thead>
@@ -119,8 +119,8 @@ export default function RankingPage() {
                         <td className="col-place">
                           <RankPlace place={place} />
                         </td>
-                        <td>
-                          {row.username}
+                        <td className="col-player">
+                          <span className="ranking-player-name">{row.username}</span>
                           {isSelf ? <span className="badge-you">You</span> : null}
                         </td>
                         <td className="col-num">
