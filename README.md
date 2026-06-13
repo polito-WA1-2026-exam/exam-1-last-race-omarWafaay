@@ -1,8 +1,8 @@
 # Exam #1: "Last Race"
 
-## Student: sXXXXXX LASTNAME FIRSTNAME
+## Student: s355114 WAFAAY OMAR HISHAM ELSAYED WAFAAY
 
-> **Before submit:** replace the line above with your matricola and name.
+
 
 Metro route-planning game — Web Applications I 2025/26. React client (`localhost:5173`) + Express/SQLite API (`localhost:3001`), session cookies via Passport.
 
@@ -12,7 +12,7 @@ Metro route-planning game — Web Applications I 2025/26. React client (`localho
 
 | Route | Access | Purpose |
 |-------|--------|---------|
-| `/` | Public | Game instructions and rules. **No map API** for anonymous users (exam requirement). |
+| `/` | Public | Instructions page, available for both registered and unregistered users.|
 | `/login` | Guest only | Login form; redirects to `/game` on success. |
 | `/game` | Logged in | Full game flow: setup → planning (90s) → execution → result. |
 | `/ranking` | Logged in | Leaderboard — best score per player from `GET /api/ranking`. |
@@ -25,10 +25,10 @@ Unknown paths redirect to `/`. Protected routes use `ProtectedRoute`; `/login` u
 
 Base URL: `http://localhost:3001` — all protected routes need session cookie (`credentials: 'include'`).
 
-### Public
+### Public APIs
 
 **`GET /api/health`**  
-Response: `{ "ok": true }`
+Response: `{ "ok": true }` (only to check that the server is running)
 
 **`POST /api/sessions`** — login  
 Body: `{ "username": "...", "password": "..." }`  
@@ -38,7 +38,7 @@ Failure `401`: `{ "error": "INVALID_CREDENTIALS" }`
 **`GET /api/sessions/current`**  
 Success `200`: user object · Failure `401`: `{ "error": "UNAUTHORIZED" }`
 
-### Protected (login required)
+### Protected APIs (login required)
 
 **`DELETE /api/sessions/current`** — logout · `204` empty body
 
@@ -71,6 +71,12 @@ Success `200`: `[{ "username": "Francesca", "bestScore": 22 }, ...]` sorted by s
 
 ---
 
+## Game API flow
+
+![Game API flow](./img/last_race_api_game_setup.png)
+
+---
+
 ## Database Tables
 
 | Table | Contents |
@@ -78,13 +84,13 @@ Success `200`: `[{ "username": "Francesca", "bestScore": 22 }, ...]` sorted by s
 | `users` | Players: `username`, scrypt `password` + `salt` (no registration API) |
 | `lines` | Metro line names (Red, Blue, Green, Yellow) |
 | `stations` | Station names |
-| `station_lines` | Station order on each line (defines adjacency) |
-| `segments` | Undirected edges between adjacent stations (`station_a_id < station_b_id`) |
-| `events` | Random events (`description`, `effect` from -4 to +4) |
-| `games` | Play session: owner, start/dest, `route_json`, `planning_started_at`, `status`, `final_score` |
-| `game_steps` | Per-leg log: from/to station, event, `coins_after` |
+| `station_lines` | Which station belongs to which line and in what **order** (defines adjacency along the line). |
+| `segments` | Undirected edge between two adjacent stations (`station_a_id` < `station_b_id`). Used for planning list and route validation. |
+| `events` | Random event catalog (`description`, `effect` from -4 to +4). |
+| `games` | One play session: owner, start/dest, optional `route_json`, `planning_started_at`, `status`, `final_score`. |
+| `game_steps` | Per-leg execution log (from/to station, event, coins after step) for completed runs. |
 
-Full ER diagram and seed details: [`docs/LAST-RACE-DATABASE.md`](docs/LAST-RACE-DATABASE.md)
+![ERD](./img/erd.png)
 
 ---
 
